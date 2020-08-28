@@ -2,7 +2,6 @@
 // ===============================================
 const express = require("express")
 const mongoose = require("mongoose")
-// const session = require("express-session")
 const app = express();
 // const cors = require("cors")
 const PORT = process.env.PORT || 3001;
@@ -40,39 +39,12 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks", {
 // }))
 
 
-// SESSION
-// =====================================================
-// LOCAL TESTING
-// app.use(session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: {
-//         maxAge: 7200000
-//     }
-// }))
-
-// DEPLOYED
-// app.use(session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: false,
-//     proxy: true,
-//     cookie: {
-//       maxAge: 2 * 60 * 60 * 1000,
-//       sameSite: "none",
-//       secure: true
-//     }
-//   }))
-
-
 // ROUTES
 // =====================================================
 // API ROUTES
-app.use(require("./controllers/booksController.js"));
+const bookController = require('./controllers/booksController');
+app.use('/api/', bookController);
 
-// USER ROUTES
-// app.use(require("./controllers/userController.js"));
 
 // HOME ROUTE
 app.get("/", (req, res) => res.send("nothing to see here"))
