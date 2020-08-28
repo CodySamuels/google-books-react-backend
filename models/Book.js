@@ -4,9 +4,8 @@ const Schema = mongoose.Schema;
 const bookSchema = new Schema({
   title: { type: String, required: true },
   author: { type: String, required: true },
-//   pageCount: {type: Number},
-  averageRating: {type: Number},
-  image: {type: String},
+  averageRating: { type: Number },
+  image: { type: String },
   synopsis: String,
   date: { type: Date, default: Date.now }
 });

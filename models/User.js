@@ -9,16 +9,12 @@ const UserSchema = new Schema({
     unique: true,
     required: "Username is required."
   },
-  
+
   password: {
     type: String,
     trim: true,
     required: "Password is required.",
     validate: [({ length }) => length >= 6, "Password should be longer."]
-  },
-
-  savedBooks: {
-    type: String,
   },
 
   userCreated: {
@@ -27,24 +23,24 @@ const UserSchema = new Schema({
   }
 });
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function (next) {
   const user = this;
 
   // only hash the password if it has been modified (or is new)
   if (!user.isModified('password')) return next();
 
   // generate a salt
-  bcrypt.genSalt(10, function(err, salt) {
+  bcrypt.genSalt(10, function (err, salt) {
+    if (err) return next(err);
+
+    // hash the password along with our new salt
+    bcrypt.hash(user.password, salt, function (err, hash) {
       if (err) return next(err);
 
-      // hash the password along with our new salt
-      bcrypt.hash(user.password, salt, function(err, hash) {
-          if (err) return next(err);
-
-          // override the cleartext password with the hashed one
-          user.password = hash;
-          next();
-      });
+      // override the cleartext password with the hashed one
+      user.password = hash;
+      next();
+    });
   });
 });
 
