@@ -6,7 +6,9 @@ const bookSchema = new Schema({
   author: { type: String, required: true },
   averageRating: { type: Number },
   image: { type: String },
+  selfLink: {type: String},
   synopsis: String,
+  google: String,
   date: { type: Date, default: Date.now }
 });
 

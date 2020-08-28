@@ -9,21 +9,43 @@ const bookAPI = require('../utils/bookAPI')
 // ======================================================
 router.get("/search/:name", async (req, res) => {
   try {
-    let results = await bookAPI(req.params.name)
+    let results = await bookAPI.nameSearch(req.params.name)
     res.json(results)
   }
-  catch {
+  catch (err) {
     console.error(err)
     res.status(500).end()
   }
 })
 
-router.post("/save/:id", async ({ body }, res) => {
+router.get("/findall", async (req, res) => {
   try {
-    let results = await db.Book.create(body)
+    let results = await db.Book.find()
     res.json(results)
   }
-  catch {
+  catch (err) {
+    console.error(err)
+    res.status(500).end()
+  }
+})
+
+router.post("/save/:id", async (req, res) => {
+  try {
+    let results = await bookAPI.idSearch(req.params.id)
+    const bookObj = {
+      title: results.items[0].volumeInfo.title,
+      author: results.items[0].volumeInfo.authors[0],
+      averageRating: results.items[0].volumeInfo.averageRating,
+      synopsis: results.items[0].volumeInfo.description,
+      selfLink: results.items[0].volumeInfo.canonicalVolumeLink,
+      image: results.items[0].volumeInfo.imageLinks.thumbnail,
+      google: results.items[0].id
+    }
+    console.log (bookObj)
+    await db.Book.create(bookObj)
+    res.json(bookObj)
+  }
+  catch (err) {
     console.error(err)
     res.status(500).end()
   }
@@ -31,11 +53,10 @@ router.post("/save/:id", async ({ body }, res) => {
 
 router.delete('/delete/:id', async (req, res) => {
   try {
-    let results = await db.Book.findById({ _id: req.params.id })
-    results.remove()
+    let results = await db.Book.findByIdAndDelete({ _id: req.params.id })
     res.json(results)
   }
-  catch {
+  catch (err) {
     console.error(err)
     res.status(422).end()
   }
