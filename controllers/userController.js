@@ -7,18 +7,8 @@ const db = require("../models/");
 
 // ROUTES
 // ======================================================
-router.get("/api/hugs", (req, res) => {
-  db.User.find({ username: req.body.username}, (error, data) => {
-    if (error) {
-      res.send(error);
-    } else {
-      res.json(data);
-    }
-  });
-});
-
-router.get("/readsessions", (req, res) => {
-  res.json(req.session)
+router.get("/readsessions", ({ session }, res) => {
+  res.json(session)
 })
 
 router.post("/api/register", ({ body }, res) => {
@@ -40,7 +30,7 @@ router.post("/api/login", (req, res) => {
         req.session.user = {
           id: user._id,
           username: user.username,
-          hugs: user.hugs
+          savedBooks: user.savedBooks
         }
         res.json(user)
       } else {
@@ -50,16 +40,6 @@ router.post("/api/login", (req, res) => {
   }).catch(err => {
     res.status(400).json(err)
   })
-})
-
-router.put("/api/save", (req, res) => {
-  db.User.update({username:req.body.username}, {$set: {hugs:req.body.hugs}})
-  .then(dbHugs => {
-    res.json(dbHugs);
-  })
-  .catch(err => {
-    res.json(err);
-  });
 })
 
 

@@ -1,7 +1,8 @@
 // DEPENDENCIES
 // ======================================================
 const db = require("../models");
-
+const router = require("express").Router();
+const bookAPI = require('../utils/bookAPI')
 
 // BOOKS
 // ======================================================
@@ -44,3 +45,34 @@ module.exports = {
   }
 
 };
+
+router.get("/books/:name", async (req, res) => {
+  try {
+    let results = await bookAPI(req.params.name)
+    res.json(results)
+  }
+  catch {
+    console.error(err)
+    res.status(500).end()
+  }
+})
+
+// const router = require("express").Router();
+// const booksController = require("../../controllers/booksController");
+
+// // Matches with "/api/books"
+// router.route("/")
+//   .get(booksController.findAll)
+//   .post(booksController.create);
+
+// // Matches with "/api/books/:id"
+// router
+//   .route("/:id")
+//   .get(booksController.findById)
+//   .put(booksController.update)
+//   .delete(booksController.remove);
+
+
+// EXPORT
+// ======================================================
+module.exports = router;
