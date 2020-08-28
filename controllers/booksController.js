@@ -39,7 +39,6 @@ router.post("/save/:id", async (req, res) => {
       synopsis: results.items[0].volumeInfo.description,
       selfLink: results.items[0].volumeInfo.canonicalVolumeLink,
       image: results.items[0].volumeInfo.imageLinks.thumbnail,
-      google: results.items[0].id
     }
     console.log (bookObj)
     await db.Book.create(bookObj)
