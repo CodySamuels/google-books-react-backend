@@ -45,7 +45,6 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks", {
 const bookController = require('./controllers/booksController');
 app.use('/api/', bookController);
 
-
 // HOME ROUTE
 app.get("/", (req, res) => res.send("nothing to see here"))
 
