@@ -9,7 +9,7 @@ const bookAPI = require('../utils/bookAPI')
 // ======================================================
 router.get("/search/:id", async (req, res) => {
   try {
-    let results = await db.Book.find(req.params.id)
+    let results = await db.Book.find({ _id: req.params.id})
     res.json(results)
   }
   catch (err) {
