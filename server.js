@@ -27,16 +27,16 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks", {
 // CORS
 // =====================================================
 // LOCAL TESTING
-app.use(cors({
-    origin: ["http://localhost:3000"],
-    credentials: true
-}))
+// app.use(cors({
+//     origin: ["http://localhost:3000"],
+//     credentials: true
+// }))
 
 // DEPLOYED
-// app.use(cors({
-//   origin: ["https://pawsitivity-atack-api.herokuapp.com/"],
-//   credentials: true
-// }))
+app.use(cors({
+  origin: ["https://cs-google-readinglist.herokuapp.com/"],
+  credentials: true
+}))
 
 
 // ROUTES
