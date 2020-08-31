@@ -18,6 +18,29 @@ router.get("/search/:id", async (req, res) => {
   }
 })
 
+router.get("/googleSearch/:name", async (req, res) => {
+  try {
+    let results = await bookAPI.nameSearch(req.params.name)
+    res.json(results)
+  }
+  catch (err) {
+    console.error(err)
+    res.status(500).end()
+  }
+})
+
+router.get("/search/:name", async (req, res) => {
+  try {
+    let results = await db.Book.find({ _id: req.params.id})
+    res.json(results)
+  }
+  catch (err) {
+    console.error(err)
+    res.status(500).end()
+  }
+})
+
+
 router.get("/findall", async (req, res) => {
   try {
     let results = await db.Book.find()
