@@ -34,7 +34,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks", {
 
 // DEPLOYED
 app.use(cors({
-  origin: ["https://cs-google-readinglist.herokuapp.com/"],
+  origin: ["https://cs-google-readinglist.herokuapp.com"],
   credentials: true
 }))
 
